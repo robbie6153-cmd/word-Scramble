@@ -116,7 +116,11 @@ function getDictionaryWordsOfLength(length) {
   return dictionary.filter(word => /^[A-Z]+$/.test(word) && word.length === length);
 }
 
-function getRandomSetForRound(roundObj) {
+
+
+  
+
+  function getRandomSetForRound(roundObj) {
   if (roundObj.mode === "manual") {
     if (!roundObj.sets || !roundObj.sets.length) return null;
 
@@ -154,18 +158,6 @@ function getRandomSetForRound(roundObj) {
       });
     }
   });
-
-  if (!validGroups.length) {
-    return null;
-  }
-
-  const selected = validGroups[Math.floor(Math.random() * validGroups.length)];
-
-  return {
-    letters: selected.letters,
-    answers: selected.answers
-  };
-}
 
   if (!validGroups.length) {
     return null;
