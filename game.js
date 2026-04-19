@@ -1,60 +1,11 @@
 const rounds = [
-  { round: 1, letters: 4, time: 10, penalty: 1, mode: "dictionary" },
-  { round: 2, letters: 5, time: 15, penalty: 2, mode: "dictionary" },
-  { round: 3, letters: 6, time: 20, penalty: 3, mode: "dictionary" },
-  { round: 4, letters: 7, time: 25, penalty: 4, mode: "dictionary" },
-
-  {
-    round: 5,
-    letters: 8,
-    time: 30,
-    penalty: 5,
-    mode: "manual",
-    sets: [
-      { letters: "INTEGRAL", answers: ["TRIANGLE", "INTEGRAL", "ALTERING", "RELATING"] },
-      { letters: "REACTION", answers: ["CREATION", "REACTION"] },
-      { letters: "DIRECTOR", answers: ["DIRECTOR", "CREDITOR"] },
-      { letters: "NOTEBOOK", answers: ["NOTEBOOK"] }
-    ].map(set => ({
-      ...set,
-      answers: [...new Set(set.answers.filter(word => word.length === 8))]
-    }))
-  },
-
-  {
-    round: 6,
-    letters: 9,
-    time: 35,
-    penalty: 6,
-    mode: "manual",
-    sets: [
-      { letters: "EDUCATION", answers: ["EDUCATION"] },
-      { letters: "SOMETHING", answers: ["SOMETHING"] },
-      { letters: "TELEPHONE", answers: ["TELEPHONE"] },
-      { letters: "CHOCOLATE", answers: ["CHOCOLATE"] },
-      { letters: "IMPORTANT", answers: ["IMPORTANT"] }
-    ].map(set => ({
-      ...set,
-      answers: [...new Set(set.answers.filter(word => word.length === 9))]
-    }))
-  },
-
-  {
-    round: 7,
-    letters: 10,
-    time: 40,
-    penalty: 7,
-    mode: "manual",
-    sets: [
-      { letters: "BACKGROUND", answers: ["BACKGROUND"] },
-      { letters: "BLACKBERRY", answers: ["BLACKBERRY"] },
-      { letters: "BASKETBALL", answers: ["BASKETBALL"] },
-      { letters: "BOOKSELLER", answers: ["BOOKSELLER"] }
-    ].map(set => ({
-      ...set,
-      answers: [...new Set(set.answers.filter(word => word.length === 10))]
-    }))
-  }
+  { round: 1, letters: 4, time: 10, penalty: 1 },
+  { round: 2, letters: 5, time: 15, penalty: 2 },
+  { round: 3, letters: 6, time: 20, penalty: 3 },
+  { round: 4, letters: 7, time: 25, penalty: 4 },
+  { round: 5, letters: 8, time: 30, penalty: 5 },
+  { round: 6, letters: 9, time: 35, penalty: 6 },
+  { round: 7, letters: 10, time: 40, penalty: 7 }
 ];
 
 const els = {
@@ -116,72 +67,18 @@ function getDictionaryWordsOfLength(length) {
   return dictionary.filter(word => /^[A-Z]+$/.test(word) && word.length === length);
 }
 
-function showMessage(text, type = "normal") {
-  if (!els.message) return;
-
-  els.message.textContent = text;
-  els.message.className = "message";
-
-  void els.message.offsetWidth; // restart animation
-
-  if (type === "success") {
-    els.message.classList.add("success");
-  } else if (type === "error") {
-    els.message.classList.add("error");
-  } else {
-    els.message.classList.add("normal");
-  }
-}
-
-  
-  function getRandomSetForRound(roundObj) {
-  if (roundObj.mode === "manual") {
-    if (!roundObj.sets || !roundObj.sets.length) return null;
-
-    const index = Math.floor(Math.random() * roundObj.sets.length);
-    const selected = roundObj.sets[index];
-
-    return {
-      letters: selected.letters.toUpperCase(),
-      answers: selected.answers.map(a => a.toUpperCase())
-    };
-  }
-
+function getRandomWordForRound(roundObj) {
   const wordsOfLength = getDictionaryWordsOfLength(roundObj.letters);
 
   if (!wordsOfLength.length) {
     return null;
   }
 
-  const groups = new Map();
-
-  wordsOfLength.forEach(word => {
-    const key = sortLetters(word);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key).push(word);
-  });
-
-  const validGroups = [];
-
-  groups.forEach((answers, key) => {
-    const uniqueAnswers = [...new Set(answers)];
-    if (uniqueAnswers.length >= 2) {
-      validGroups.push({
-        letters: key,
-        answers: uniqueAnswers
-      });
-    }
-  });
-
-  if (!validGroups.length) {
-    return null;
-  }
-
-  const selected = validGroups[Math.floor(Math.random() * validGroups.length)];
+  const selectedWord = wordsOfLength[Math.floor(Math.random() * wordsOfLength.length)];
 
   return {
-    letters: selected.letters,
-    answers: selected.answers
+    letters: selectedWord.toUpperCase(),
+    answers: [selectedWord.toUpperCase()]
   };
 }
 
@@ -274,7 +171,7 @@ async function flashResult(text, type, duration = 900) {
   els.message.textContent = text;
   els.message.className = "message";
 
-  void els.message.offsetWidth; // force reflow so animation restarts
+  void els.message.offsetWidth;
 
   if (type === "success") {
     els.message.classList.add("success");
@@ -294,7 +191,7 @@ function startRound() {
   lastRoundPenaltyUsed = 0;
 
   const roundObj = rounds[currentRoundIndex];
-  currentSet = getRandomSetForRound(roundObj);
+  currentSet = getRandomWordForRound(roundObj);
 
   if (!currentSet) {
     setMessage(`No ${roundObj.letters}-letter words found in dictionary.js`, "error");
@@ -347,7 +244,10 @@ async function validateAnswer() {
     return;
   }
 
-  if (currentSet.answers.includes(guess)) {
+  const guessIsInDictionary = dictionary.includes(guess);
+  const sameLetters = sortLetters(guess) === sortLetters(currentSet.letters);
+
+  if (guessIsInDictionary && sameLetters) {
     roundSolved = true;
     clearInterval(timerInterval);
 
@@ -356,11 +256,10 @@ async function validateAnswer() {
     totalScore += earned;
     updateHUD();
 
-   await flashResult("✔ CORRECT!", "success", 900);
-  
+    await flashResult("✔ CORRECT!", "success", 900);
     endRound(true, guess);
   } else {
-   await flashResult("✖ WRONG!", "error", 900);
+    await flashResult("✖ WRONG!", "error", 900);
     setMessage(`Solve the ${requiredLength}-letter anagram`, "normal");
     els.answerInput.focus();
     els.answerInput.select();
@@ -387,7 +286,7 @@ function endRound(solved, answer = "") {
   clearInterval(timerInterval);
 
   const roundNumber = currentRoundIndex + 1;
-  const answerList = currentSet ? currentSet.answers.join(", ") : "";
+  const answerList = currentSet ? currentSet.letters : "";
   showScreen("recap");
 
   if (solved) {
@@ -403,7 +302,7 @@ function endRound(solved, answer = "") {
     els.recapTitle.textContent = `Round ${roundNumber} over`;
     els.recapText.innerHTML = `
       Time ran out.<br>
-      Possible answer${currentSet.answers.length > 1 ? "s" : ""}: <strong>${answerList}</strong><br>
+      One possible answer: <strong>${answerList}</strong><br>
       Round score: <strong>0</strong><br>
       Total score: <strong>${totalScore}</strong>
     `;
