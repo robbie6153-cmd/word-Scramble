@@ -80,8 +80,8 @@ body {
   height: 11%;
   cursor: pointer;
   z-index: 30;
-  border: none;
-  background: transparent;
+  border: 2px solid red;
+  background: rgba(255, 0, 0, 0.2);
   padding: 0;
 }
 
