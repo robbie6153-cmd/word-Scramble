@@ -2,28 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>Word Scramble – RobTechUK</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="game-wrapper">
 
-    <!-- START SCREEN -->
-    <section id="start-screen" class="screen card">
-      <h1>Word Scramble</h1>
-      <p class="subtitle">Unscramble the letters before time runs out.</p>
+    <!-- HOME / START SCREEN -->
+    <section id="start-screen" class="screen">
+      <div class="home-container">
+        <div class="home-image-wrap">
+          <img src="homepage.jpg" alt="Word Scramble Home" class="home-image" />
 
-      <div class="rules-box">
-        <h2>How to Play</h2>
-        <p>Round 1 starts with 4 letters and 10 seconds.</p>
-        <p>Each round adds 1 extra letter and 5 extra seconds.</p>
-        <p>Your score for each round is the time left on the clock.</p>
-        <p>You can use <strong>Change Letters</strong> once per round, but it costs points.</p>
-        <p>Any valid word from the given letters counts.</p>
+          <!-- TOP HOTSPOTS -->
+          <a href="https://robtech.uk" class="hotspot home-link" aria-label="Home"></a>
+          <a href="#" class="hotspot leaderboard-link" aria-label="Leaderboard"></a>
+          <a href="privacy.html" class="hotspot privacy-link" aria-label="Privacy"></a>
+          <a href="terms.html" class="hotspot terms-link" aria-label="Terms"></a>
+          <a href="about.html" class="hotspot about-link" aria-label="About"></a>
+          <a href="settings.html" class="hotspot settings-link" aria-label="Settings"></a>
+          <a href="profile.html" class="hotspot profile-link" aria-label="Profile"></a>
+
+          <!-- PLAY BUTTON -->
+          <button id="start-btn" class="play-button" aria-label="Start Game"></button>
+
+          <!-- CONTACT -->
+          <a href="mailto:contact@robtech.uk" class="hotspot contact-link" aria-label="Contact"></a>
+        </div>
+
+        <div class="card intro-card">
+          <h1>Word Scramble</h1>
+          <p class="subtitle">Unscramble the letters before time runs out.</p>
+
+          <div class="rules-box">
+            <h2>How to Play</h2>
+            <p>Round 1 starts with 4 letters and 10 seconds.</p>
+            <p>Each round adds 1 extra letter and 5 extra seconds.</p>
+            <p>Your score for each round is the time left on the clock.</p>
+            <p>You can use <strong>Change Letters</strong> once per round, but it costs points.</p>
+            <p>Any valid word from the given letters counts.</p>
+          </div>
+        </div>
       </div>
-
-      <button id="start-btn" class="main-btn">Start Game</button>
     </section>
 
     <!-- GAME SCREEN -->
