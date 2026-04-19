@@ -74,14 +74,14 @@ body {
 .play-button {
   position: absolute;
   left: 50%;
-  top: 78%;
+  top: 80%;
   transform: translate(-50%, -50%);
-  width: 46%;
+  width: 50%;
   height: 11%;
   cursor: pointer;
   z-index: 30;
-  border: 2px solid red;
-  background: rgba(255, 0, 0, 0.2);
+  border: none;
+  background: transparent;
   padding: 0;
 }
 
