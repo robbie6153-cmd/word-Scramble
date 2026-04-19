@@ -116,10 +116,24 @@ function getDictionaryWordsOfLength(length) {
   return dictionary.filter(word => /^[A-Z]+$/.test(word) && word.length === length);
 }
 
+function showMessage(text, type = "normal") {
+  if (!els.message) return;
 
+  els.message.textContent = text;
+  els.message.className = "message";
+
+  void els.message.offsetWidth; // restart animation
+
+  if (type === "success") {
+    els.message.classList.add("success");
+  } else if (type === "error") {
+    els.message.classList.add("error");
+  } else {
+    els.message.classList.add("normal");
+  }
+}
 
   
-
   function getRandomSetForRound(roundObj) {
   if (roundObj.mode === "manual") {
     if (!roundObj.sets || !roundObj.sets.length) return null;
@@ -255,7 +269,21 @@ function delay(ms) {
 }
 
 async function flashResult(text, type, duration = 900) {
-  setMessage(text, type);
+  if (!els.message) return;
+
+  els.message.textContent = text;
+  els.message.className = "message";
+
+  void els.message.offsetWidth; // force reflow so animation restarts
+
+  if (type === "success") {
+    els.message.classList.add("success");
+  } else if (type === "error") {
+    els.message.classList.add("error");
+  } else {
+    els.message.classList.add("normal");
+  }
+
   await delay(duration);
 }
 
