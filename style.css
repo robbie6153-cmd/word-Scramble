@@ -437,18 +437,66 @@ button:disabled {
   line-height: 1.6;
   color: #333;
 }
-.contact-section {
-  background: url("background.jpg") center/cover no-repeat;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("background.jpg") center center / cover no-repeat fixed;
   color: white;
   text-align: center;
-  padding: 30px 20px;
-  margin: 20px auto;
-  max-width: 700px;
-  border-radius: 12px;
-  font-size: 18px;
 }
 
-.contact-section a {
+.page-container {
+  box-sizing: border-box;
+  width: calc(100% - 30px);
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px 18px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.page-container p {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+}
+
+.page-container h1 {
+  font-size: 38px;
+}
+
+.page-container a {
   color: #00ffcc;
   font-weight: bold;
+}
+
+.home-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #00ffcc;
+  color: black !important;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.ad-box iframe {
+  max-width: 100%;
+}
+
+@media (max-width: 500px) {
+  .page-container {
+    width: calc(100% - 24px);
+    padding: 24px 14px;
+    margin: 30px auto;
+  }
+
+  .page-container p {
+    font-size: 18px;
+  }
+
+  .page-container h1 {
+    font-size: 34px;
+  }
 }
