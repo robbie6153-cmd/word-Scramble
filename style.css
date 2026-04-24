@@ -437,7 +437,7 @@ button:disabled {
   line-height: 1.6;
   color: #333;
 }
-body {
+body.contact-page {
   margin: 0;
   font-family: Arial, sans-serif;
   background: url("background.jpg") center center / cover no-repeat fixed;
@@ -445,7 +445,7 @@ body {
   text-align: center;
 }
 
-.page-container {
+body.contact-page .page-container {
   box-sizing: border-box;
   width: calc(100% - 30px);
   max-width: 600px;
@@ -456,22 +456,22 @@ body {
   overflow: hidden;
 }
 
-.page-container p {
+body.contact-page .page-container p {
   max-width: 100%;
   overflow-wrap: break-word;
   line-height: 1.4;
 }
 
-.page-container h1 {
+body.contact-page .page-container h1 {
   font-size: 38px;
 }
 
-.page-container a {
+body.contact-page .page-container a {
   color: #00ffcc;
   font-weight: bold;
 }
 
-.home-button {
+body.contact-page .home-button {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
@@ -481,22 +481,26 @@ body {
   text-decoration: none;
 }
 
-.ad-box iframe {
+body.contact-page .ad-box iframe {
+  max-width: 100%;
+}
+
+body.contact-page .bottom-ad iframe {
   max-width: 100%;
 }
 
 @media (max-width: 500px) {
-  .page-container {
+  body.contact-page .page-container {
     width: calc(100% - 24px);
     padding: 24px 14px;
     margin: 30px auto;
   }
 
-  .page-container p {
+  body.contact-page .page-container p {
     font-size: 18px;
   }
 
-  .page-container h1 {
+  body.contact-page .page-container h1 {
     font-size: 34px;
   }
 }
